@@ -1,0 +1,15 @@
+#!/usr/local/bin/bash
+
+nameserver='rt'
+if [ $1 ]
+	then hostlist=$1
+	else hostlist='/home/pgl/public_html/adservers/tocheck.txt'
+fi
+
+cat $hostlist | while read record
+do
+	rr=`host $record 2> /dev/null`
+	if [ "$rr" ] && ! echo $rr | grep -q '127.0.0.1'
+		then echo $record
+	fi
+done
